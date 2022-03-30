@@ -10,6 +10,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math
 
+#备注：这是一个练手的代码，难度不大基本diy，测试用例和可视化来自覃秉丰的《深度学习从0到1》
+#      主要就是实现单层感知机的训练过程和测试并可视化
 def sigmoid(Y):
     return 1/(1+math.exp(Y))
 
@@ -40,7 +42,6 @@ def train(X,Y,net,lr,epoch):
         net.w = net.w+delta_w
         print('epoch',i+1)
         print('weight',net.w)
-        
     return net.w,net(X)
 
 def visual(X,w):

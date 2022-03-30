@@ -11,10 +11,13 @@ import matplotlib.pyplot as plt
 import math
 from SingleLayerPerceptron import SingleLayerPerceptron
 
-
+# 这里线性神经网络模型其实就是单层感知机的输出层取消激活函数的结果
+# main代码是为了直观说明：网络的非线性可以解决异或问题
+# 代码中体现了：线性神经网络不能解决的异或问题，在将特征非线性组合后可以被解决
+# 由此可知：如果网络是非线性的，具有把特征整合成非线性的功能，也是可以解决这个问题的
 class LinearNN(SingleLayerPerceptron):
     """
-    线性神经网络模型与单层感知机区别只在于激活函数时纯线性函数，所以这里我继承了单层感知机重写激活函数
+    线性神经网络模型与单层感知机区别只在于激活函数是纯线性函数，所以这里我继承了单层感知机重写激活函数
     """
     def activate(self,X):
         return X
