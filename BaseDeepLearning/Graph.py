@@ -1,10 +1,10 @@
 '''
-Description: 
+Description: 主要来自张伟振的《深度学习原理与Pytorch实战》，有小修
 Version: 
 Autor: Hedwig
 Date: 2022-03-31 16:11:17
 LastEditors: Hedwig
-LastEditTime: 2022-03-31 19:48:48
+LastEditTime: 2022-03-31 20:42:45
 '''
 # 用邻接表实现图
 # Node类对象记录每个节点，用列表记录节点的上一个节点和下一个节点
@@ -36,7 +36,7 @@ class Graph:
             self.Nodes[tail.id] = tail
         self.Nodes[head.id].next_nodes.append(tail)
         self.Nodes[tail.id].previous_nodes.append(head)
-        
+
     def traverse(self):
         for node_id in self.Nodes:
             print("{}:{}".format(node_id,','.join([str(next_node.id) \

@@ -1,13 +1,14 @@
 '''
-Description: 
+Description: pytorch中张量计算图的实现，基本来自张伟振的《深度学习原理与Pytorch实战》，\\
+    原文中代码不够完整有报错，小修了一下使其可以运行
 Version: 
 Autor: Hedwig
 Date: 2022-03-31 16:25:56
 LastEditors: Hedwig
-LastEditTime: 2022-03-31 20:00:45
+LastEditTime: 2022-03-31 20:46:33
 '''
 from Graph import Node,Graph
-
+from abc import ABCMeta, abstractmethod
 graph = Graph()
 
 # 创建一个继承节点类的运算类作为后续操作的父类
@@ -15,7 +16,8 @@ graph = Graph()
 class Function(Node):
     def forward(self,*argv):
         pass
-
+    
+    @abstractmethod
     def backward(self,grad):
         pass
 
@@ -60,6 +62,7 @@ class Add(Function):
         graph.add_edge(self,result_tensor)
         return result_tensor
 
+    # 加法的导数是1
     def backward(self, grad):
         x_node:Tensor = self.previous_nodes[0]
         y_node:Tensor = self.previous_nodes[1]
