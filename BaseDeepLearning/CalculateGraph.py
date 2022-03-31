@@ -5,7 +5,7 @@ Version:
 Autor: Hedwig
 Date: 2022-03-31 16:25:56
 LastEditors: Hedwig
-LastEditTime: 2022-03-31 20:46:33
+LastEditTime: 2022-03-31 22:02:20
 '''
 from Graph import Node,Graph
 from abc import ABCMeta, abstractmethod
@@ -80,8 +80,8 @@ if __name__=='__main__':
     w=Tensor(2)
     x=Tensor(1)
     b=Tensor(0.5)
-    y=add(multiply(w,x),b)
+    y=multiply(add(multiply(w,x),b),w)# w^2 * x + w * b
     y.backward()
-    print('w.grad:{}'.format(w.grad))
-    print('x.grad:{}'.format(x.grad))
-    print('y.grad:{}'.format(y.grad))
+    print('w.grad:{}'.format(w.grad))# 2wx+b
+    print('x.grad:{}'.format(x.grad))# w^2
+    print('y.grad:{}'.format(y.grad))# 1
