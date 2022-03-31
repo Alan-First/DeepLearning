@@ -4,7 +4,7 @@ Version:
 Autor: Hedwig
 Date: 2022-03-31 16:11:17
 LastEditors: Hedwig
-LastEditTime: 2022-03-31 17:11:58
+LastEditTime: 2022-03-31 19:02:40
 '''
 
 # 用邻接表实现图
@@ -25,8 +25,8 @@ class Graph:
     def add_edge(self,tail:Node,head:Node)->Node:
         if tail.id not in self.Nodes:
             self.Nodes[tail.id] = tail
-            if head.id not in self.Nodes:
-                self.Nodes[head.id] = head
+        if head.id not in self.Nodes:
+            self.Nodes[head.id] = head
         self.Nodes[tail.id].next_nodes.append(head)
         self.Nodes[head.id].previous_nodes.append(tail)
     def traverse(self):

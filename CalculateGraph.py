@@ -4,7 +4,7 @@ Version:
 Autor: Hedwig
 Date: 2022-03-31 16:25:56
 LastEditors: Hedwig
-LastEditTime: 2022-03-31 17:12:30
+LastEditTime: 2022-03-31 19:02:47
 '''
 from Graph import Node,Graph
 
@@ -33,7 +33,8 @@ class Tensor(Function):
 class Multiply(Function):
     def forward(self,x:Tensor,y:Tensor)->Tensor:
         result_tensor = Tensor(x.data * y.data)
-        graph.add_edge
+        #print(self.id)
+        graph.add_edge(self,result_tensor)
         return result_tensor
 
     def backward(self,grad):
@@ -44,6 +45,7 @@ class Multiply(Function):
 
 def multiply(x:Tensor,y:Tensor):
     multiply_node = Multiply()#IndexGetter.get_id()
+    #print(multiply_node.id)
     graph.add_edge(x,multiply_node)
     graph.add_edge(y,multiply_node)
     return multiply_node.forward(x,y)
@@ -62,6 +64,7 @@ class Add(Function):
 
 def add(x:Tensor, y:Tensor):
     add_node = Add()#IndexGetter.get_id()
+    #print(add_node.id)
     graph.add_edge(x,add_node)
     graph.add_edge(y,add_node)
     return add_node.forward(x,y)
@@ -70,7 +73,7 @@ if __name__=='__main__':
     w=Tensor(2)
     x=Tensor(1)
     b=Tensor(0.5)
-    y=add(multiply(w,x)+b)
+    y=add(multiply(w,x),b)
     y.backward()
     print('w.grad:{}'.format(w.grad))
     print('x.grad:{}'.format(x.grad))
