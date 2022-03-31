@@ -2,7 +2,7 @@
 # -*- encoding: utf-8 -*-
 '''
 @File         :MultipleLayerPerceptron.py
-@Description  :
+@Description  :实现多层感知机及其反向传播，主要是DIY，测试用例和可视化来自于覃秉丰的《深度学习从0到1》
 @Time         :2022/03/30 10:13:16
 @Author       :Hedwig
 @Version      :1.0
