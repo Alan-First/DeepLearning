@@ -6,6 +6,7 @@ DIY
 3. 完成MultipleLayerPerceptron，实现多层感知机
 4. 完成Graph和CalculateGraph，实现计算图，用python模拟pytorch中张量前向计算和后向计算的过程
 5. 创建BaseDeepLearning文件夹存放前面所有基础深度学习入门的代码
+6. 后面的代码需要服务器，所以尝试在服务器中使用git
 
 
 
