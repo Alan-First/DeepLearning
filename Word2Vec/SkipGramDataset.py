@@ -26,8 +26,8 @@ class WordEmbeddingDataset(tud.Dataset):
         for word,freq in word_freq.items():
             self.words.append(word)
             self.freqs.append(freq)
-        print(self.words)
-        print(self.freqs)
+        #print(self.words)
+        #print(self.freqs)
 
     def __len__(self):
         return len(self.data)
@@ -37,6 +37,9 @@ class WordEmbeddingDataset(tud.Dataset):
         pos_indices = list(range(index - self.win_size, index)) + list(
             range(index + 1, index + self.win_size + 1))  # 中心词前后各C个词作为正样本
         pos_indices = list(filter(lambda i: i >= 0 and i < len(self.data), pos_indices))  # 过滤，如果索引超出范围，则丢弃
+        if len(pos_indices) != 2*self.win_size:
+            pos_indices+=[pos_indices[0]]*(2*self.win_size-len(pos_indices))
+        assert len(pos_indices)==2*self.win_size
         pos_words = self.data[pos_indices]  # 周围单词
         # 按分布找出词典中的负样本，replace最好选True，不然窗口较大而字典较小的时候，数字就不够用了
         # 这个写法并不尽善尽美
@@ -46,9 +49,12 @@ class WordEmbeddingDataset(tud.Dataset):
         # 测试用例的数组里的31跟24模拟了这种情况
         # 目前没有想到解决方案，但是网上的实现也都不考虑这个问题，原因不明
         neg_words = np.random.choice(a=self.words,size=(self.neg_ratio+1) * len(pos_words),\
-            replace=True,p=self.freqs)
+            replace=False,p=self.freqs)
         neg_words = np.setdiff1d(neg_words,pos_words)[:self.neg_ratio * len(pos_words)]
         neg_words = [self.words.index(i) for i in neg_words]
+        #if len(neg_words)!=2*self.win_size*self.neg_ratio:
+        #    print(len(neg_words))
+        assert len(neg_words)==2*self.win_size*self.neg_ratio
         return center_word,pos_words,torch.LongTensor(neg_words)
 
 def get_word_freq(data,FREQ=0,VOCABULARY_SIZE=50000,DELETE_WORDS=False):
@@ -87,6 +93,7 @@ def get_word_freq(data,FREQ=0,VOCABULARY_SIZE=50000,DELETE_WORDS=False):
     word_sum = np.sum(list(word_freqs.values()))
     word_freqs = {w: c/word_sum for w, c in word_freqs.items()}
     return data,word_freqs
+
 if __name__=='__main__':
     VOCABULARY_SIZE=10# 词典大小
     data = [31,30,20,21,22,23,24,25,21,20,22,23,24,22,23,21,21,26,26,26,27,28,23,29,29,21,30,\
@@ -102,7 +109,12 @@ if __name__=='__main__':
         print('center=',center)
         print('pos=',pos)
         print('neg=',neg)
-    
+    dataloader = tud.DataLoader(wed,batch_size=2,shuffle=True)
+    for i, (input_labels, pos_labels, neg_labels) in enumerate(dataloader):
+        print(input_labels.shape)
+        print(neg_labels.shape)
+        if i>2:
+            break
 
         
 
