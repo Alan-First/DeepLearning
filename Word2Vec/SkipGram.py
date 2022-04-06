@@ -33,16 +33,16 @@ class SkipGramModel(torch.nn.Module):
         u_embeds = self.embeddings(centers).view(batch_size,1,-1)#为了方便做乘法[batch,1,dim]
         v_embeds = self.embeddings(context).view(batch_size,2*self.win_size,-1)#[batch,2*self.win_size,dim]
         score = torch.bmm(u_embeds,v_embeds.transpose(1,2)).squeeze()#矩阵相乘
-        pos_score = torch.sum(score,dim=1)#batch,2*self.win_size
+        pos_score = torch.mean(score,dim=1)#batch,2*self.win_size
         loss = F.logsigmoid(pos_score).squeeze()
         #print(loss.shape)
         neg_v_embeds = self.embeddings(neg_context)
         neg_score = torch.bmm(u_embeds,neg_v_embeds.transpose(1,2)).squeeze()
-        neg_score = torch.sum(neg_score,dim=1)# 一个中心词有多个背景词，求和
+        neg_score = torch.mean(neg_score,dim=1)# 一个中心词有多个背景词，求和
         neg_score = F.logsigmoid(-1*neg_score).squeeze()
         loss+=neg_score
         #print(loss.shape)
-        return -1*loss.sum()
+        return -1*loss.mean()
     def get_embeddings(self):
         return self.embeddings.weight.data
 
@@ -64,7 +64,7 @@ if __name__=='__main__':
     print('can use cuda:',torch.cuda.is_available())
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     wed = WordEmbeddingDataset(data=id_word,word_freq=word_freq)
-    dataloader = tud.DataLoader(wed,batch_size=16,shuffle=True)
+    dataloader = tud.DataLoader(wed,batch_size=32,shuffle=True)
     model = SkipGramModel(vocabulary_size=len(word_freq),embedding_dim=64).to(device)
     optimizer = torch.optim.SGD(model.parameters(), lr=0.001)
 
