@@ -19,24 +19,27 @@ import collections
 class SkipGramModel(torch.nn.Module):
     def __init__(self,vocabulary_size,embedding_dim,win_size=1):
         super(SkipGramModel,self).__init__()
-        self.embeddings = torch.nn.Embedding(vocabulary_size,embedding_dim)#返回（batch,num，feature_dim）
+        self.in_embeddings = torch.nn.Embedding(vocabulary_size,embedding_dim)#返回（batch,num，feature_dim）
+        self.out_embeddings = torch.nn.Embedding(vocabulary_size,embedding_dim)
         initrange = 0.5/embedding_dim# 单个词向量权值之和在-0.5和0.5之间
-        self.embeddings.weight.data.uniform_(-initrange,initrange)# 权值按均匀分布初始化
+        self.in_embeddings.weight.data.uniform_(-initrange,initrange)# 权值按均匀分布初始化
+        self.out_embeddings.weight.data.uniform_(-initrange,initrange)
         self.win_size = win_size
     
     def forward(self,centers,context,neg_context):
         # 这里的centers跟context就是中心词和背景词，而context的背景词
         # 输入是按一个中心词一个背景词输入的
-        # 这里只使用了一个embedding矩阵，他把中心词和背景词都乘上这个矩阵，变成压缩向量以后
+        # 这里使用了两个embedding矩阵，他把中心词和背景词都乘上这个矩阵，变成压缩向量以后
         # ，内积得到的结果计算loss
+        # 文献3中只用了一个embedding层，也就是说它认为一个词作为中心词和作为背景词的映射方式是一样的
         batch_size = len(centers)#[batch_size,feature_dim]
-        u_embeds = self.embeddings(centers).view(batch_size,1,-1)#为了方便做乘法[batch,1,dim]
-        v_embeds = self.embeddings(context).view(batch_size,2*self.win_size,-1)#[batch,2*self.win_size,dim]
+        u_embeds = self.in_embeddings(centers).view(batch_size,1,-1)#为了方便做乘法[batch,1,dim]
+        v_embeds = self.out_embeddings(context).view(batch_size,2*self.win_size,-1)#[batch,2*self.win_size,dim]
         score = torch.bmm(u_embeds,v_embeds.transpose(1,2)).squeeze()#矩阵相乘
         pos_score = torch.mean(score,dim=1)#batch,2*self.win_size
         loss = F.logsigmoid(pos_score).squeeze()
         #print(loss.shape)
-        neg_v_embeds = self.embeddings(neg_context)
+        neg_v_embeds = self.out_embeddings(neg_context)
         neg_score = torch.bmm(u_embeds,neg_v_embeds.transpose(1,2)).squeeze()
         neg_score = torch.mean(neg_score,dim=1)# 一个中心词有多个背景词，求和
         neg_score = F.logsigmoid(-1*neg_score).squeeze()
@@ -44,13 +47,13 @@ class SkipGramModel(torch.nn.Module):
         #print(loss.shape)
         return -1*loss.mean()
     def get_embeddings(self):
-        return self.embeddings.weight.data
+        return self.in_embeddings.weight.data
 
 if __name__=='__main__':
     from SkipGramDataset import WordEmbeddingDataset,get_word_freq
     # 超参数
     BATCH_SIZE=2
-    EPOCHS=100
+    EPOCHS=1000
     # 文件读取
     with open('text8.txt') as f:
         words = f.read()
@@ -64,9 +67,9 @@ if __name__=='__main__':
     print('can use cuda:',torch.cuda.is_available())
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     wed = WordEmbeddingDataset(data=id_word,word_freq=word_freq)
-    dataloader = tud.DataLoader(wed,batch_size=32,shuffle=True)
-    model = SkipGramModel(vocabulary_size=len(word_freq),embedding_dim=64).to(device)
-    optimizer = torch.optim.SGD(model.parameters(), lr=0.001)
+    dataloader = tud.DataLoader(wed,batch_size=64,shuffle=True)
+    model = SkipGramModel(vocabulary_size=len(word_freq),embedding_dim=128).to(device)
+    optimizer = torch.optim.SGD(model.parameters(), lr=0.1)
 
     # 训练
     for epoch in range(EPOCHS):
@@ -78,5 +81,5 @@ if __name__=='__main__':
             loss = model(input_labels, pos_labels, neg_labels).mean()
             loss.backward()
             optimizer.step()
-        if epoch % 10 == 0:
+        if epoch % 50 == 0:
             print("epoch", epoch, "loss", loss.item())
