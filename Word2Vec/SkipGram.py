@@ -83,3 +83,23 @@ if __name__=='__main__':
             optimizer.step()
         if epoch % 50 == 0:
             print("epoch", epoch, "loss", loss.item())
+'''
+代码输出
+epoch 0 loss 1.3862918615341187
+epoch 50 loss 1.3812416791915894
+epoch 100 loss 1.2875112295150757
+epoch 150 loss 1.2195510864257812
+epoch 200 loss 1.0609501600265503
+epoch 250 loss 1.2624115943908691
+epoch 300 loss 1.070410966873169
+epoch 350 loss 0.9761687517166138
+epoch 400 loss 0.9282042384147644
+epoch 450 loss 0.8098894953727722
+epoch 500 loss 0.6932863593101501
+epoch 550 loss 0.6844012141227722
+epoch 600 loss 0.7273381948471069
+epoch 650 loss 0.8231338262557983
+epoch 700 loss 0.585033655166626
+epoch 750 loss 0.4203912317752838
+epoch 
+'''

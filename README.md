@@ -20,3 +20,4 @@
 3. pytorch基础和自然语言处理基础代码基本来自张楠等的《深度学习自然语言处理实战》
 4. NLP文字预处理过程参考https://github.com/wentsun12/NLP_Learning/blob/master/skip_gram/skip-gram.py
 5. skip-Gram模型和文字预处理参考https://zhuanlan.zhihu.com/p/275899732
+6. 情感分类语料库测试代码主要来自：https://blog.csdn.net/m0_37201243/article/details/105609333
