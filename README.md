@@ -12,6 +12,7 @@
 10. 添加SkipGramDataset，补充负采样的实现，文献3和文献4中负采样直接从词典中采集负样本，这可能导致词典中正样本被当作负样本，在代码中补充了负样本的条件筛选，这部分代码修改自文献4（文献4源代码也没有解决这个问题）
 11. 添加SkipGram实现了skip gram的模型训练
 12. 添加preNLP文件夹，复现前NLP时代的代码
+13. SentimentClassificationDataset和data_preprocess文件内容比较杂
 
 
 参考文献
