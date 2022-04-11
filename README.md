@@ -13,6 +13,7 @@
 11. 添加SkipGram实现了skip gram的模型训练
 12. 添加preNLP文件夹，复现前NLP时代的代码
 13. SentimentClassificationDataset和data_preprocess文件内容比较杂
+14. 上面的文件没有完成，赶进度提前进入bert的代码练习，创建bert文件夹和BertTestipynb和BERTTest.py
 
 
 参考文献

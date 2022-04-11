@@ -17,6 +17,7 @@ import torchtext.legacy.data as data
 
 def load_param():
     parser = argparse.ArgumentParser(description='TextCNN classifier')
+    parser.add_argument('-origin-file',type=str,default='data/rt-polarity')
     parser.add_argument('-train-file',type=str,default='')
     parser.add_argument('-dev-file',type=str,default='')
     parser.add_argument('-test-file',type=str,default='')
@@ -30,6 +31,8 @@ def load_param():
     args = parser.parse_args()
     return args
 
+def word_preprocess_and_split(config):
+    os.listdir(config.origin_file)
 
 
 
