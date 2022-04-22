@@ -34,6 +34,7 @@ random.seed(SEED)
 np.random.seed(SEED)
 torch.manual_seed(SEED)
 torch.backends.cudnn.deterministic=True
+device='cuda' if torch.cuda.is_available() else 'cpu'
 
 tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
 init_token_id = tokenizer.cls_token_id
@@ -51,6 +52,11 @@ def tokenize_and_crop(sentence):
     return tokens
 
 # 加载pytorch提供的IMDB数据
+def tokenize_and_crop(sentence):
+    tokens = tokenizer.tokenize(sentence)
+    tokens = tokens[:max_input_len-2]
+    return tokens
+
 def load_data():
     text = data.Field(
         batch_first=True,
@@ -64,6 +70,19 @@ def load_data():
     label = data.LabelField(dtype=torch.float)
     train_data,test_data = datasets.IMDB.splits(text,label)
     print(train_data)
+    train_data,valid_data = train_data.split(random_state=random.seed(SEED))
+    print(f'train examples counts:{len(train_data)}')
+    print(f'test examples counts:{len(test_data)}')
+    print(f'valid examples counts:{len(valid_data)}')
+
+    label.build_vocab(train_data)
+
+    train_iter,valid_iter,test_iter = data.BucketIterator.splits(
+        (train_data,valid_data,test_data),
+        batch_sizes=BATCH_SIZE,
+        devices=device
+        )
+    return train_iter,valid_iter,test_iter
 
 print(load_data())
 
