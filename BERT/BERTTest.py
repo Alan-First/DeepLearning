@@ -25,7 +25,7 @@ import time
 SEED = 2022
 TRAIN = True
 BATCH_SIZE=128
-N_EPOCHS=5
+N_EPOCHS=20
 HIDDEN_DIM=256
 OUTPUT_DIM=1
 N_LAYERS=2
@@ -195,3 +195,22 @@ if __name__=='__main__':
         model.load_state_dict(torch.load('model.pt',map_location=device))
         sentiment = predict_sentiment(model,tokenizer,TEXT)
         print(sentiment)
+
+'''
+Epoch:01|Epoch Time:7m 14s
+        Train Loss:0.569|Train Acc:69.34%
+         Val Loss:0.377| Val Acc:83.68%
+Epoch:02|Epoch Time:7m 20s
+        Train Loss:0.378|Train Acc:83.65%
+         Val Loss:0.276| Val Acc:88.91%
+Epoch:03|Epoch Time:7m 21s
+        Train Loss:0.320|Train Acc:86.45%
+         Val Loss:0.264| Val Acc:89.35%
+Epoch:04|Epoch Time:7m 20s
+        Train Loss:0.291|Train Acc:87.99%
+         Val Loss:0.260| Val Acc:90.11%
+Epoch:05|Epoch Time:7m 20s
+        Train Loss:0.269|Train Acc:88.85%
+         Val Loss:0.251| Val Acc:90.07%
+Test Loss:0.237|Test Acc:90.51%
+'''
