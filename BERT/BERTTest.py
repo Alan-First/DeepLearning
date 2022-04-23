@@ -79,10 +79,9 @@ def load_data():
 
     train_iter,valid_iter,test_iter = data.BucketIterator.splits(
         (train_data,valid_data,test_data),
-        batch_sizes=BATCH_SIZE,
-        devices=device
+        batch_size=BATCH_SIZE,
+        device=device
         )
     return train_iter,valid_iter,test_iter
 
-print(load_data())
 
