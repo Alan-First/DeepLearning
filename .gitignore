@@ -4,3 +4,5 @@
 **/.data
 **/PythonObject.ipynb
 *.pt
+*.gz
+*.svg
