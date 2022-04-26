@@ -14,9 +14,10 @@
 12. 添加preNLP文件夹，复现前NLP时代的代码
 13. SentimentClassificationDataset和data_preprocess文件内容比较杂
 14. 上面的文件没有完成，赶进度提前进入bert的代码练习，创建bert文件夹和BertTestipynb和BERTTest.py
-15. 完成的BERTTest.py，实现bert在imdb数据集情感分类的微调
+15. 完成的**BERTTest.py，实现bert在imdb数据集情感分类的微调**
 16. 在BertTest.ipynb文件上测试使用各种NLP相关工具
 17. 在BaseDeepLearning文件夹的BasePyTorch.ipynb尝试pytorch常用函数
+18. 创建BaseCNN文件夹，添加ModuleTest.ipynb学习Module搭建模型
 
 
 参考文献
