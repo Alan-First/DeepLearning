@@ -18,7 +18,8 @@
 16. 在BertTest.ipynb文件上测试使用各种NLP相关工具
 17. 在BaseDeepLearning文件夹的BasePyTorch.ipynb尝试pytorch常用函数
 18. 创建BaseCNN文件夹，添加ModuleTest.ipynb学习Module搭建模型
-19. 创建Bertology文件夹，添加Pipeline.ipynb实现管道方式文本分类任务
+19. 创建Bertology文件夹，添加Pipeline.ipynb，用管道方式实现六大NLP任务，代码来自文献7
+20. 添加AutoModel.ipynb实现自动模型，代码来自文献7
 
 参考文献
 1. 多层感知机以前的测试用例、可视化代码、数学推导来源于覃秉丰的《深度学习从0到1》
