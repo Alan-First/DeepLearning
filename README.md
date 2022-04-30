@@ -20,6 +20,8 @@
 18. 创建BaseCNN文件夹，添加ModuleTest.ipynb学习Module搭建模型
 19. 创建Bertology文件夹，添加Pipeline.ipynb，用管道方式实现六大NLP任务，代码来自文献7
 20. 添加AutoModel.ipynb实现自动模型，代码来自文献7
+21. 添加Bertology.ipynb和GPT2Test.py，测试tokenizer的实现和**GPT2句子的预测和生成**
+22. 创建ModelExplain文件夹，创建CNNInterpret.py解释模型内容，由于导入问题添加了多余文件
 
 参考文献
 1. 多层感知机以前的测试用例、可视化代码、数学推导来源于覃秉丰的《深度学习从0到1》
