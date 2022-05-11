@@ -21,3 +21,30 @@
 echo "Hello World!"
 /bin/pwd
 /bin/ls
+
+# cd
+VAR=10
+env grep | VAR
+env grep | $VAR
+# export 把本地变量转环境变量
+# 删除环境变量unset
+# *当前全部,如*.sh 代替字母?，[]匹配中括号范围内一个 如1-9 a-z
+ls *.sh
+ls ????.sh
+ls [a-z]???.sh
+# $取值符号
+VAR=date
+echo VAR
+echo $VAR #对变量名取值，建议${}
+unset VAR
+cd
+VAR=$(date) #对命令取结果
+echo $VAR
+# 反引号·是取值
+echo `date` #对命令取结果
+VAR=45
+echo $($VAR+3) #只能用+-*/()运算符，[]会将里面运算符作为运算
+#echo $[2#10+5] #2进制10和5求和
+
+
+
