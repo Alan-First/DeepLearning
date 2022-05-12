@@ -25,6 +25,7 @@
 23. 用CNNInterpret.py解释模型内容
 24. github私钥到期，修改后测试push
 25. 添加trfm_classification.ipynb
+26. 添加test.sh，添加shell基本命令
 
 参考文献
 1. 多层感知机以前的测试用例、可视化代码、数学推导来源于覃秉丰的《深度学习从0到1》
